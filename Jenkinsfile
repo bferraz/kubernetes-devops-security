@@ -29,6 +29,15 @@ pipeline {
               sh 'docker push bferraz1990/numeric-app:""$GIT_COMMIT""'
             }
           }
+        }
+
+        stage('Kubernetes Deployment - DEV') {
+          steps {
+            withKubeConfig([credentialsId: 'kubeconfig']) {
+              sh "sed -i 's#replace#bferraz1990/numeric-app:${GIT_COMMIT}#g' k8s_deployment_service.yaml"
+              sh "kubectl apply -f k8s_deployment_service.yaml"
+            }
+          }
         }    
     }
 }
