@@ -24,7 +24,6 @@ pipeline {
         stage('Docker Build and Push') {
           steps {
             withDockerRegistry([credentialsId: "docker-hub", url: ""]) {
-              bat 'printenv'
               bat 'docker build -t bferraz1990/numeric-app:""$GIT_COMMIT"" .'
               bat 'docker push bferraz1990/numeric-app:""$GIT_COMMIT""'
             }
