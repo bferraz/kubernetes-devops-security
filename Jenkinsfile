@@ -32,8 +32,7 @@ pipeline {
 
         stage('Kubernetes Deployment - DEV') {
           steps {
-            withKubeConfig([credentialsId: 'kubeconfig']) {
-              bat "sed -i 's#replace#bferraz1990/numeric-app:v5g' k8s_deployment_service.yaml"
+            withKubeConfig([credentialsId: 'kubeconfig']) {              
               bat "kubectl apply -f k8s_deployment_service.yaml"
             }
           }
