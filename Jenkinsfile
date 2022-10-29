@@ -37,8 +37,7 @@ pipeline {
             withSonarQubeEnv('SonarQube') {
               bat "mvn clean verify sonar:sonar \
                   -Dsonar.projectKey=numeric-application \
-                  -Dsonar.host.url=http://localhost:9000 \
-                  -Dsonar.login=sqp_b26ba59e8306a523acd0f1fa7f04df313ada168c"
+                  -Dsonar.host.url=http://localhost:9000
             }
             timeout(time: 2, unit: 'MINUTES') {
               script {
