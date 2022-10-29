@@ -9,44 +9,53 @@ pipeline {
             }
         }
 
-        stage('Unit Tests - JUnit and Jacoco') {
-          steps {
-            bat "mvn test"
-          }
-          post {
-            always {
-              junit 'target/surefire-reports/*.xml'
-              jacoco execPattern: 'target/jacoco.exec'
-            }
+      stage('Unit Tests - JUnit and Jacoco') {
+        steps {
+          bat "mvn test"
+        }
+        post {
+          always {
+            junit 'target/surefire-reports/*.xml'
+            jacoco execPattern: 'target/jacoco.exec'
           }
         }
+      }
 
-        stage('Mutation Tests - PIT') {
-          steps {
-            bat "mvn org.pitest:pitest-maven:mutationCoverage"
-          }
-          post {
-            always {
-              pitmutation mutationStatsFile: '**/target/pit-reports/**/mutations.xml'
-            }
+      stage('Mutation Tests - PIT') {
+        steps {
+          bat "mvn org.pitest:pitest-maven:mutationCoverage"
+        }
+        post {
+          always {
+            pitmutation mutationStatsFile: '**/target/pit-reports/**/mutations.xml'
           }
         }
+      }
 
-        stage('Docker Build and Push') {
+      stage('SonarQube - SATS') {
           steps {
-            withDockerRegistry([credentialsId: "docker-hub", url: ""]) {
-              bat 'docker build -t bferraz1990/numeric-app:v5 .'
-              bat 'docker push bferraz1990/numeric-app:v5'
-            }
+            bat "mvn clean verify sonar:sonar \
+                -Dsonar.projectKey=numeric-application \
+                -Dsonar.host.url=http://localhost:9000 \
+                -Dsonar.login=sqp_b26ba59e8306a523acd0f1fa7f04df313ada168c"
+          }
+      }
+
+      stage('Docker Build and Push') {
+        steps {
+          withDockerRegistry([credentialsId: "docker-hub", url: ""]) {
+            bat 'docker build -t bferraz1990/numeric-app:v5 .'
+            bat 'docker push bferraz1990/numeric-app:v5'
           }
         }
+      }
 
-        stage('Kubernetes Deployment - DEV') {
-          steps {
-            withKubeConfig([credentialsId: 'kubeconfig']) {              
-              bat "kubectl apply -f k8s_deployment_service.yaml"
-            }
+      stage('Kubernetes Deployment - DEV') {
+        steps {
+          withKubeConfig([credentialsId: 'kubeconfig']) {              
+            bat "kubectl apply -f k8s_deployment_service.yaml"
           }
-        }    
+        }
+      }    
     }
 }
