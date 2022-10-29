@@ -32,7 +32,7 @@ pipeline {
         }
       }
 
-      stage('SonarQube - SATS') {
+      stage('SonarQube - SAST') {
           steps {
             withSonarQubeEnv('SonarQube') {
               bat "mvn clean verify sonar:sonar \
