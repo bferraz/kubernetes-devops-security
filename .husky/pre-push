@@ -1,4 +1,4 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
-bash -c "D:\\Estudos\\DevSecOps\\Capitulo3\\talisman-main\\global_install_scripts\\talisman_hook_script.bash"
+bash -c "D://Estudos//DevSecOps//Capitulo3//talisman-main//global_install_scripts//talisman_hook_script.bash"
