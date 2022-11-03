@@ -49,14 +49,14 @@ pipeline {
 
       stage('Vulnerability Scan - Docker ') {
         steps {
-          parallel {
+          parallel (
             "Dependency Scan": {
               bat "mvn dependency-check:check"
             },
             "Trivy Scan": {
               bat ".\trivy-docker-image-scan.bat"
             }
-          }          
+          )          
         }
       }
 
