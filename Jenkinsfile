@@ -49,7 +49,7 @@ pipeline {
 
       stage('Vulnerability Scan - Docker ') {
         steps {
-          sh "mvn dependency-check:check"
+          bat "mvn dependency-check:check"
         }
         post {
           always {
