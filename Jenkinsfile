@@ -54,7 +54,7 @@ pipeline {
               bat "mvn dependency-check:check"
             },
             "Trivy Scan": {
-              bat ".\trivy-docker-image-scan.bat"
+              bat "trivy-docker-image-scan.bat"
             }
           )          
         }
