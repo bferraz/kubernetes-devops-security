@@ -47,7 +47,7 @@ pipeline {
       //   }
       // }
 
-      stage('Vulnerability Scan - Docker ') {
+      stage('Vulnerability Scan - Docker') {
         steps {
           parallel (
             "Dependency Scan": {
@@ -69,6 +69,12 @@ pipeline {
             bat 'docker build -t bferraz1990/numeric-app:v6 .'
             bat 'docker push bferraz1990/numeric-app:v6'
           }
+        }
+      }
+
+      stage('Vulnerability Scan - Kubernets')  {
+        steps {
+          bat 'docker run --rm -v D:\\Estudos\\DevSecOps\\Capitulo2\\kubernetes-devops-security:/project openpolicyagent/conftest test --policy opa-k8s-security.rego k8s_deployment_service.yaml';
         }
       }
 
