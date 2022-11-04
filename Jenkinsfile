@@ -24,6 +24,12 @@ pipeline {
         }
       }
 
+      stage('Teste executando C# :)') {
+        steps {
+          bat "./executables/integration-tests/integration-test.exe"
+        }
+      }
+
       stage('Mutation Tests - PIT') {
         steps {
           bat "mvn org.pitest:pitest-maven:mutationCoverage"
@@ -50,12 +56,6 @@ pipeline {
           }
       }
 
-      // stage('Vulnerability Scan - Docker ') {
-      //   steps {
-      //     bat "mvn dependency-check:check"
-      //   }
-      // }
-
       stage('Vulnerability Scan - Docker') {
         steps {
           parallel (
@@ -81,12 +81,6 @@ pipeline {
         }
       }
 
-      // stage('Vulnerability Scan - Kubernets')  {
-      //   steps {
-      //     bat 'docker run --rm -v D:\\Estudos\\DevSecOps\\Capitulo2\\kubernetes-devops-security:/project openpolicyagent/conftest test --policy opa-k8s-security.rego k8s_deployment_service.yaml';
-      //   }
-      // }
-
       stage('Vulnerability Scan - Kubernets')  {
         steps {
           parallel (
@@ -95,18 +89,13 @@ pipeline {
             },
             "Kubesec Scan": {
               bat "echo execute shell script here (kubesec-scan.sh)"
+            },
+            "Trivy Scan": {
+              bat "execute shell script here (trivy-k8s-scan.sh)"
             }
           )          
         }
       }
-
-      // stage('Kubernetes Deployment - DEV') {
-      //   steps {
-      //     withKubeConfig([credentialsId: 'kubeconfig']) {              
-      //       bat "kubectl apply -f k8s_deployment_service.yaml"
-      //     }
-      //   }
-      // }    
 
       stage('K8S Deployment - DEV') {
         steps {
