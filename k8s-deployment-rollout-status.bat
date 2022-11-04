@@ -3,8 +3,6 @@
 
 timeout /t 60
 
-SET kubernetsResult=''
-
 FOR /F "delims=" %%F IN ('kubectl -n default rollout status deploy %deploymentName% --timeout 5s') DO SET var=%%F
 
 IF "%var%" equ "deployment "%deploymentName%" successfully rolled out" (
