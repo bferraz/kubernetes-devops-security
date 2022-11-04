@@ -1,6 +1,6 @@
 @echo off
 
-SET dockerImageName=openjdk:8-jdk-alpine
+SET dockerImageName=adoptopenjdk/openjdk8:alpine-slim
 echo "%dockerImageName%"
 
 docker run --rm -v D:\volumes\trivy:/root/.cache/ aquasec/trivy:0.34.0 -q image --exit-code 0 --severity HIGH --light %dockerImageName%
