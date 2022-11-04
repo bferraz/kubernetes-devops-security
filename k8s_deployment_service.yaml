@@ -16,7 +16,7 @@ spec:
         app: devsecops
     spec:
       containers:
-      - image: bferraz1990/numeric-app:v5
+      - image: bferraz1990/numeric-app:v6
         name: devsecops-container
 ---
 apiVersion: v1

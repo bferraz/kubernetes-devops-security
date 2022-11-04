@@ -66,8 +66,8 @@ pipeline {
       stage('Docker Build and Push') {
         steps {
           withDockerRegistry([credentialsId: "docker-hub", url: ""]) {
-            bat 'docker build -t bferraz1990/numeric-app:v5 .'
-            bat 'docker push bferraz1990/numeric-app:v5'
+            bat 'docker build -t bferraz1990/numeric-app:v6 .'
+            bat 'docker push bferraz1990/numeric-app:v6'
           }
         }
       }
