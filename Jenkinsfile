@@ -55,6 +55,9 @@ pipeline {
             },
             "Trivy Scan": {
               bat "trivy-docker-image-scan.bat"
+            },
+            "OPA Conftest": {
+              sh 'docker run --rm -v D:\\Estudos\\DevSecOps\\Capitulo2\\kubernetes-devops-security:/project openpolicyagent/conftest test --policy opa-docker-security.rego Dockerfile'
             }
           )          
         }
