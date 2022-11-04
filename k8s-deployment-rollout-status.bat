@@ -1,7 +1,7 @@
 @echo off
 @REM set deploymentName=%1
 
-timeout /t 60
+@REM timeout /t 60
 
 FOR /F "delims=" %%F IN ('kubectl -n default rollout status deploy %deploymentName% --timeout 5s') DO SET var=%%F
 
