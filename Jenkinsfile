@@ -1,6 +1,15 @@
 pipeline {
   agent any
 
+  environment {
+    deploymentName = "devsecops"
+    containerName = "devsecops-container"
+    serviceName = "devsecops-svc"
+    imageName = "bferraz1990/numeric-app:v6"
+    applicationURL = "http://localhost/"
+    applicationURI = "/increment/99"
+  }
+
   stages {
       stage('Build Artifact') {
             steps {
@@ -78,13 +87,30 @@ pipeline {
         }
       }
 
-      stage('Kubernetes Deployment - DEV') {
+      // stage('Kubernetes Deployment - DEV') {
+      //   steps {
+      //     withKubeConfig([credentialsId: 'kubeconfig']) {              
+      //       bat "kubectl apply -f k8s_deployment_service.yaml"
+      //     }
+      //   }
+      // }    
+
+      stage('K8S Deployment - DEV') {
         steps {
-          withKubeConfig([credentialsId: 'kubeconfig']) {              
-            bat "kubectl apply -f k8s_deployment_service.yaml"
-          }
+          parallel(
+            "Deployment": {
+              withKubeConfig([credentialsId: 'kubeconfig']) {
+                bat "bash k8s-deployment.bat"
+              }
+            },
+            "Rollout Status": {
+              withKubeConfig([credentialsId: 'kubeconfig']) {
+                bat "bash k8s-deployment-rollout-status.bat"
+              }
+            }
+          )
         }
-      }    
+      }
     }
 
     post {
