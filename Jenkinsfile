@@ -100,12 +100,12 @@ pipeline {
           parallel(
             "Deployment": {
               withKubeConfig([credentialsId: 'kubeconfig']) {
-                bat "bash k8s-deployment.bat"
+                bat "k8s-deployment.bat"
               }
             },
             "Rollout Status": {
               withKubeConfig([credentialsId: 'kubeconfig']) {
-                bat "bash k8s-deployment-rollout-status.bat"
+                bat "k8s-deployment-rollout-status.bat"
               }
             }
           )
