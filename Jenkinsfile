@@ -94,7 +94,7 @@ pipeline {
               bat 'docker run --rm -v D:\\Estudos\\DevSecOps\\Capitulo2\\kubernetes-devops-security:/project openpolicyagent/conftest test --policy opa-k8s-security.rego k8s_deployment_service.yaml';
             },
             "Kubesec Scan": {
-              bat "echo execute shell script here"
+              bat "echo execute shell script here (kubesec-scan.sh)"
             }
           )          
         }
